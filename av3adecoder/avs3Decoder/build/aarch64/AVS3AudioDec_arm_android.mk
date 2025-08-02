@@ -88,7 +88,7 @@ else
 	CFLAGS += $(OPT_FLAG) -Wall
 endif
 
-CFLAGS += -DANDROID -Wl,--no-undefined -Wl,--retain-symbols-file=retain_symbols.txt -Wl,-version-script=version-script.txt
+CFLAGS += -DANDROID -Wl,--no-undefined -Wl,--retain-symbols-file=retain_symbols.txt -Wl,-version-script=version-script.txt -Wl,-z,max-page-size=16384
 
 SRC_DIRS=../../src ../../../libavs3_common ../../../libavs3_debug
 SRC=$(foreach TMP_SRC_DIRS, $(SRC_DIRS), $(wildcard $(TMP_SRC_DIRS)/*.c)) 
@@ -132,7 +132,7 @@ bin:    $(OBJ)
 	@echo
 	@echo 'creating binary "$(TARGET)"'
 	#@$(CC) -shared -fPIC $(CFLAGS) -o $(TARGET) $(OBJ) $(DEP_LIB)
-	@ar rcs $(TARGET) $(OBJ)  # Ê¹ÓÃ ar ÃüÁî´ò°ü³É¾²Ì¬¿â
+	@ar rcs $(TARGET) $(OBJ)  # ÃŠÂ¹Ã“Ãƒ ar ÃƒÃ¼ÃÃ®Â´Ã²Â°Ã¼Â³Ã‰Â¾Â²ÃŒÂ¬Â¿Ã¢
 	@echo '... done'
 	@echo
 
