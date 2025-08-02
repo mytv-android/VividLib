@@ -133,7 +133,7 @@ bin:    $(OBJ)
 	@echo
 	@echo 'creating binary "$(TARGET)"'
 	#@$(CC) -shared -fPIC $(CFLAGS) -o $(TARGET) $(OBJ) $(DEP_LIB)
-	@ar rcs $(TARGET) $(OBJ)  # Ê¹ÓÃ ar ÃüÁî´ò°ü³É¾²Ì¬¿â
+	@ar rcs $(TARGET) $(OBJ)  # Ê¹ï¿½ï¿½ ar ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½Ì¬ï¿½ï¿½
 
 	@echo '... done'
 	@echo
