@@ -488,11 +488,11 @@ void Avs3EncoderInit(AVS3EncoderHandle stAvs3, FILE** fModel)
     }
 
     // open model file
-//     if ((*fModel = fopen("model.bin", "rb")) == NULL)
-//     {
-//         fprintf(stderr, "Can not open model file.\n");
-//         exit(-1);
-//     }
+    if ((*fModel = fopen("./bin/model.bin", "rb")) == NULL)
+    {
+        fprintf(stderr, "Can not open model file.\n");
+        exit(-1);
+    }
 	modul_structure modul;
 	assert(sizeof(modul.data) == sizeof(g_model));
 	memcpy(modul.data, g_model, sizeof(modul.data));

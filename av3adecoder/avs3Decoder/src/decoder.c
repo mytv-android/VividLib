@@ -41,135 +41,135 @@ long long  VMF_GetTime()
     return lltime;
 }
 
-int main(int argc, char* argv[])
-{
-    static long frame = 0;
+// int main(int argc, char* argv[])
+// {
+//     static long frame = 0;
 
-    FILE *fBitstream = NULL;
-    FILE *fOutput = NULL;
-    // FILE* fModel = NULL;
-    // AVS3DecoderHandle hAvs3Dec = NULL;
-    // short data[MAX_CHANNELS * FRAME_LEN];
-    // short ret = 0;
-    // short numChansOutput;
-	Avs3DecoderLibHandle hInstance = NULL;
-	char modelPath[100] = "model.bin";
-	uint8_t headerBs[9];
-	uint8_t payload[12300];
-	int16_t data[16 * 1024];
-	Avs3MetaData avs3Metadata;
-	Avs3DecoderLibConfig avs3DecLibConfig;
+//     FILE *fBitstream = NULL;
+//     FILE *fOutput = NULL;
+//     // FILE* fModel = NULL;
+//     // AVS3DecoderHandle hAvs3Dec = NULL;
+//     // short data[MAX_CHANNELS * FRAME_LEN];
+//     // short ret = 0;
+//     // short numChansOutput;
+// 	Avs3DecoderLibHandle hInstance = NULL;
+// 	char modelPath[100] = "model.bin";
+// 	uint8_t headerBs[9];
+// 	uint8_t payload[12300];
+// 	int16_t data[16 * 1024];
+// 	Avs3MetaData avs3Metadata;
+// 	Avs3DecoderLibConfig avs3DecLibConfig;
 
-#ifdef  PROF_ON
-    ProfilerStart("avs3Decoder_CPU.prof");
-#endif
+// #ifdef  PROF_ON
+//     ProfilerStart("avs3Decoder_CPU.prof");
+// #endif
 
-    // if ((hAvs3Dec = (AVS3DecoderHandle)malloc(sizeof(AVS3Decoder))) == NULL)
-    // {
-	// 	LOGD("Can not allocate memory for AVS3 decoder structure!\n");
-    //     exit(-1);
-    // }
-	fBitstream = fopen(argv[1], "rb");
+//     // if ((hAvs3Dec = (AVS3DecoderHandle)malloc(sizeof(AVS3Decoder))) == NULL)
+//     // {
+// 	// 	LOGD("Can not allocate memory for AVS3 decoder structure!\n");
+//     //     exit(-1);
+//     // }
+// 	fBitstream = fopen(argv[1], "rb");
 
-    fread(headerBs, sizeof(uint8_t), 9, fBitstream);
-    fseek(fBitstream, 0, SEEK_SET);
+//     fread(headerBs, sizeof(uint8_t), 9, fBitstream);
+//     fseek(fBitstream, 0, SEEK_SET);
 
-    Avs3DecoderLibCreate(&hInstance, headerBs, modelPath);
+//     Avs3DecoderLibCreate(&hInstance, headerBs, modelPath);
 
-    /* Get command line */
-    // GetAvs3DecoderCommandLine(hAvs3Dec, argc, argv, &fBitstream, &fOutput);
-	Avs3DecoderLibGetConfig(hInstance, &avs3DecLibConfig);
+//     /* Get command line */
+//     // GetAvs3DecoderCommandLine(hAvs3Dec, argc, argv, &fBitstream, &fOutput);
+// 	Avs3DecoderLibGetConfig(hInstance, &avs3DecLibConfig);
 
-    /* Init decoder */
-    // Avs3InitDecoder(hAvs3Dec, &fModel, "module.bin");
-	fOutput = Avs3DecoderLibOpenWavFile(hInstance, argv[2]);
+//     /* Init decoder */
+//     // Avs3InitDecoder(hAvs3Dec, &fModel, "module.bin");
+// 	fOutput = Avs3DecoderLibOpenWavFile(hInstance, argv[2]);
 
-    // numChansOutput = hAvs3Dec->numChansOutput;
-	short numChansOutput = hInstance->hAvs3Dec->numChansOutput;
-    long long t0 = VMF_GetTime();
-    long long globalSampleCnt = 0;
-    long long t1 = VMF_GetTime();
-    double t_cost = (t1-t0)/1000.0; //ms
-    long long t_s0 = VMF_GetTime();
-    long long t_s1 = VMF_GetTime();
+//     // numChansOutput = hAvs3Dec->numChansOutput;
+// 	short numChansOutput = hInstance->hAvs3Dec->numChansOutput;
+//     long long t0 = VMF_GetTime();
+//     long long globalSampleCnt = 0;
+//     long long t1 = VMF_GetTime();
+//     double t_cost = (t1-t0)/1000.0; //ms
+//     long long t_s0 = VMF_GetTime();
+//     long long t_s1 = VMF_GetTime();
 
-    long long cost_all_dec  = 0;
-    // fprintf(stdout, "frame len = %d\n", hAvs3Dec->frameLength);
-	fprintf(stdout, "frame len = %d\n", hInstance->hAvs3Dec->frameLength);
+//     long long cost_all_dec  = 0;
+//     // fprintf(stdout, "frame len = %d\n", hAvs3Dec->frameLength);
+// 	fprintf(stdout, "frame len = %d\n", hInstance->hAvs3Dec->frameLength);
 
-    // while ((ret = ReadBitstream(hAvs3Dec, fBitstream)) != 0)
-	while (fread(headerBs, sizeof(uint8_t), 9, fBitstream) != 0)
-    {
-        t_s0 = VMF_GetTime();
-        // Avs3Decode(hAvs3Dec, data);
-		int16_t rewind;
-		int16_t bytesPerFrame;
+//     // while ((ret = ReadBitstream(hAvs3Dec, fBitstream)) != 0)
+// 	while (fread(headerBs, sizeof(uint8_t), 9, fBitstream) != 0)
+//     {
+//         t_s0 = VMF_GetTime();
+//         // Avs3Decode(hAvs3Dec, data);
+// 		int16_t rewind;
+// 		int16_t bytesPerFrame;
 
-		Avs3DecoderLibParseHeader(hInstance, headerBs, &rewind, &bytesPerFrame);
+// 		Avs3DecoderLibParseHeader(hInstance, headerBs, &rewind, &bytesPerFrame);
 
-		if (rewind != 0) {
-            fseek(fBitstream, -rewind, SEEK_CUR);
-        }
+// 		if (rewind != 0) {
+//             fseek(fBitstream, -rewind, SEEK_CUR);
+//         }
 
-		fread(payload, sizeof(uint8_t), bytesPerFrame, fBitstream);
+// 		fread(payload, sizeof(uint8_t), bytesPerFrame, fBitstream);
 
-		Avs3DecoderLibProcess(hInstance, payload, data, &avs3Metadata);
-        t_s1 = VMF_GetTime();
-        cost_all_dec += t_s1-t_s0;
-        // ResetBitstream(hAvs3Dec->hBitstream);
+// 		Avs3DecoderLibProcess(hInstance, payload, data, &avs3Metadata);
+//         t_s1 = VMF_GetTime();
+//         cost_all_dec += t_s1-t_s0;
+//         // ResetBitstream(hAvs3Dec->hBitstream);
 
-        // WriteSynthData(data, fOutput, hAvs3Dec->numChansOutput, hAvs3Dec->frameLength);
-		Avs3DecoderLibWriteWavData(hInstance, data, fOutput);
+//         // WriteSynthData(data, fOutput, hAvs3Dec->numChansOutput, hAvs3Dec->frameLength);
+// 		Avs3DecoderLibWriteWavData(hInstance, data, fOutput);
 
-        t1 = VMF_GetTime();
-        t_cost = (t1-t0)/1000.0; //ms
+//         t1 = VMF_GetTime();
+//         t_cost = (t1-t0)/1000.0; //ms
 
-        // globalSampleCnt += hAvs3Dec->frameLength;
-		globalSampleCnt += hInstance->hAvs3Dec->frameLength;
-        fprintf(stdout, "%-8ld,%0.3f\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b", frame,globalSampleCnt*1000.0/(48000*t_cost));
-        fflush(stdout);
+//         // globalSampleCnt += hAvs3Dec->frameLength;
+// 		globalSampleCnt += hInstance->hAvs3Dec->frameLength;
+//         fprintf(stdout, "%-8ld,%0.3f\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b", frame,globalSampleCnt*1000.0/(48000*t_cost));
+//         fflush(stdout);
 
-        frame++;
-    }
-#ifdef  PROF_ON
-  	ProfilerStop();
-#endif
-    // SynthWavHeader(fOutput);
+//         frame++;
+//     }
+// #ifdef  PROF_ON
+//   	ProfilerStop();
+// #endif
+//     // SynthWavHeader(fOutput);
 
-    t1 = VMF_GetTime();
-    t_cost = (t1-t0)/1000.0; //ms 
-    fprintf(stdout, "\n\n");
-    fprintf(stdout, "AVS3 Decoder finished...,%0.3f frame/s,%0.3f samples/s,speed=%0.3f,cost all=%0.3f,enc=%0.3f ms\n\n",
-                    frame*1000.0/t_cost,globalSampleCnt*1000.0/t_cost,globalSampleCnt*1000.0/(48000*t_cost), 
-                    t_cost,cost_all_dec/1000.000);
-    printf("glabalSampleCnt = %lld\n",globalSampleCnt);
-    printf("TotalCost = %0.6f ms\n",t_cost);
+//     t1 = VMF_GetTime();
+//     t_cost = (t1-t0)/1000.0; //ms 
+//     fprintf(stdout, "\n\n");
+//     fprintf(stdout, "AVS3 Decoder finished...,%0.3f frame/s,%0.3f samples/s,speed=%0.3f,cost all=%0.3f,enc=%0.3f ms\n\n",
+//                     frame*1000.0/t_cost,globalSampleCnt*1000.0/t_cost,globalSampleCnt*1000.0/(48000*t_cost), 
+//                     t_cost,cost_all_dec/1000.000);
+//     printf("glabalSampleCnt = %lld\n",globalSampleCnt);
+//     printf("TotalCost = %0.6f ms\n",t_cost);
 
-	Avs3DecoderLibClose(&hInstance);
+// 	Avs3DecoderLibClose(&hInstance);
 
-	Avs3DecoderLibUpdateWavHeader(fOutput);
+// 	Avs3DecoderLibUpdateWavHeader(fOutput);
 
-	fprintf(stdout, "Decoding of %ld frames finished\n\n", frame);
+// 	fprintf(stdout, "Decoding of %ld frames finished\n\n", frame);
 
-    if (fBitstream != NULL) 
-    {
-        fclose(fBitstream);
-    }
+//     if (fBitstream != NULL) 
+//     {
+//         fclose(fBitstream);
+//     }
 
-    // if (fModel != NULL) 
-    // {
-    //     fclose(fModel);
-    // }
+//     // if (fModel != NULL) 
+//     // {
+//     //     fclose(fModel);
+//     // }
 
-    if (fOutput != NULL) 
-    {
-        fclose(fOutput);
-    }
+//     if (fOutput != NULL) 
+//     {
+//         fclose(fOutput);
+//     }
 
-    // Avs3DecoderDestroy(hAvs3Dec);
+//     // Avs3DecoderDestroy(hAvs3Dec);
 
-    return 0;
-}
+//     return 0;
+// }
 
 AVS3DecoderHandle avs3_create_decoder()
 {
@@ -652,7 +652,7 @@ int avs3_decode(AVS3DecoderHandle hAvs3Dec, unsigned char* pDataIN, int nLenIn, 
 	if (!hAvs3Dec->bInited)
 	{
 //		printf("Avs3InitDecoder in\n");
-		Avs3InitDecoder(hAvs3Dec, &hAvs3Dec->fModel, "model.bin");
+		Avs3InitDecoder(hAvs3Dec, &hAvs3Dec->fModel, "./bin/model.bin");
 //		printf("Avs3InitDecoder out\n");
 		hAvs3Dec->bInited = 1;
 	}

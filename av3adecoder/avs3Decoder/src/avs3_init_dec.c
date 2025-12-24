@@ -372,12 +372,14 @@ int Avs3InitDecoder(AVS3DecoderHandle hAvs3Dec, FILE** fModel, const char *model
     }
 
     hAvs3Dec->modelType = HYPER;
-//     if ((*fModel = fopen(modelPath, "rb")) == NULL)
-//     {
-// 		fprintf(stderr, "Can not open model file.\n");
-//         return -1;
-//     }
-	modul_structure modul;
+    if ((*fModel = fopen(modelPath, "rb")) == NULL)
+    {
+        LOGD("Can not open model file. modelpath: %s\n", modelPath);
+        fprintf(stderr, "Can not open model file.\n");
+        return -1;
+    }
+    LOGD("The model file loaded successfully.\n");
+    modul_structure modul;
 	assert(sizeof(modul.data) == sizeof(g_model));
 	memcpy(modul.data, g_model, sizeof(modul.data));
 	modul.nIndex = 0;

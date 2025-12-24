@@ -5,7 +5,7 @@
 ###             by shengyancong
 ###
 
-NAME = libAVS3AudioDec.so
+NAME = libav3a_decoder.so
 OS_ARCH := $(shell uname -m)
 ### include debug information: 1=yes, 0=no
 DBG?= 0
@@ -80,7 +80,7 @@ CFLAGS += -Wl,--no-undefined -Wl,--retain-symbols-file=retain_symbols.txt -Wl,-v
 
 SRC_DIRS=../../src ../../../libavs3_common ../../../libavs3_debug
 SRC=$(foreach TMP_SRC_DIRS, $(SRC_DIRS), $(wildcard $(TMP_SRC_DIRS)/*.c)) 
-TARGET=../../../bin/libAVS3AudioDec.so
+TARGET=../../../bin/libav3a_decoder.so
 OBJ:=$(SRC:.c=.o)
 
 LIB_EXTERN=-L../../lib/  -L../../deps/lib

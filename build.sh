@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NDK=/home/yogiczy/media3/android-ndk-r27
+NDK=/content/Android/ndk/27.3.13750724
 export NDK
 
 ORIGINAL_PATH=$(pwd)

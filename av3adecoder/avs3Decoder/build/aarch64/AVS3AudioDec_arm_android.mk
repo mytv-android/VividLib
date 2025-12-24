@@ -4,7 +4,7 @@
 ###             generated for LINUX environments
 ###             by shengyancong
 ###
-# NDK=/home/yogiczy/media3/android-ndk-r27
+# NDK=/content/Android/ndk/27.3.13750724
 TOOLCHAIN=$(NDK)/toolchains/llvm/prebuilt/linux-x86_64
 
 ARCH=arm64
@@ -17,7 +17,7 @@ CROSS=aarch64-linux-android
 CROSS_PREFIX=$(TOOLCHAIN)/bin/$(CROSS)
 OPTIMIZE_CFLAGS="-march=$(CPU)"
 
-NAME = libAVS3AudioDec.a
+NAME = libav3a_decoder.a
 OS_ARCH := aarch64
 ### include debug information: 1=yes, 0=no
 DBG?= 0
@@ -26,7 +26,7 @@ M32?= 0
 ### include O level optimization : 0-3
 OPT?= 3
 ### Static Compilation
-STC?= 0
+STC?= 1
 ### Support AVX2
 AVX2?= 0
 ### Support AVX512
@@ -89,10 +89,11 @@ else
 endif
 
 CFLAGS += -DANDROID -Wl,--no-undefined -Wl,--retain-symbols-file=retain_symbols.txt -Wl,-version-script=version-script.txt
+LOCAL_LDLIBS    += -llog
 
 SRC_DIRS=../../src ../../../libavs3_common ../../../libavs3_debug
 SRC=$(foreach TMP_SRC_DIRS, $(SRC_DIRS), $(wildcard $(TMP_SRC_DIRS)/*.c)) 
-TARGET=../../../bin/arm64-v8a/libAVS3AudioDec.a
+TARGET=../../../bin/arm64-v8a/libav3a_decoder.a
 OBJ:=$(SRC:.c=.o)
 
 LIB_EXTERN=-L../../lib/  -L../../deps/lib

@@ -317,8 +317,8 @@
 
 #ifdef ANDROID
 #include <android/log.h>
-#define TAG "av3a_decoder" // 这个是自定义的LOG的标识   
-#define LOGD(format, ...) //__android_log_print(ANDROID_LOG_DEBUG,TAG ,format,##__VA_ARGS__) // 定义LOGD类型  
+#define TAG "av3a_decoder" // 锟斤拷锟斤拷锟斤拷远锟斤拷锟斤拷LOG锟侥憋拷识   
+#define LOGD(format, ...) __android_log_print(ANDROID_LOG_DEBUG,TAG ,format,##__VA_ARGS__) // 锟斤拷锟斤拷LOGD锟斤拷锟斤拷  
 #else
 #define LOGD(format, ...) printf(format, ##__VA_ARGS__)
 #endif

@@ -3,6 +3,6 @@
 #### 编译
 
 ```shell
-# 请修改 ./build.sh 中 NDK=/home/yogiczy/media3/android-ndk-r27
+# 请修改 ./build.sh 中 NDK=/content/Android/ndk/27.3.13750724
 ./build.sh
 ```

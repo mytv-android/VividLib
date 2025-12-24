@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NDK=/home/yogiczy/media3/android-ndk-r27
+NDK=/content/Android/ndk/27.3.13750724
 TOOLCHAIN=$NDK/toolchains/llvm/prebuilt/linux-x86_64
 
 #需要在当前目录下新建temp文件夹
@@ -28,6 +28,8 @@ echo "The Compilation of av3a_binaural_render for $CPU is completed"
 
 mkdir -p ../../../../../ffmpeg/ffmpeg-6.1/android-libs
 cp -r ../../../../bin/* ../../../../../ffmpeg/ffmpeg-6.1/android-libs/
+mkdir -p ../../../../../android-libs/
+cp -r ../../../../bin/* ../../../../../android-libs/
 }
 
 

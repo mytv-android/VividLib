@@ -5,7 +5,7 @@
 ###             by shengyancong
 ###
 
-NAME = libAVS3AudioDec.so
+NAME = libav3a_decoder.so
 OS_ARCH := $(shell uname -m)
 ### include debug information: 1=yes, 0=no
 DBG?= 0
@@ -14,7 +14,7 @@ M32?= 0
 ### include O level optimization : 0-3
 OPT?= 3
 ### Static Compilation
-STC?= 0
+STC?= 1
 ### Support AVX2
 AVX2?= 0
 ### Support AVX512
@@ -77,10 +77,11 @@ else
 endif
 
 CFLAGS += -Wl,--no-undefined -Wl,--retain-symbols-file=retain_symbols.txt -Wl,-version-script=version-script.txt
+LOCAL_LDLIBS    += -llog
 
 SRC_DIRS=../../src ../../../libavs3_common ../../../libavs3_debug
 SRC=$(foreach TMP_SRC_DIRS, $(SRC_DIRS), $(wildcard $(TMP_SRC_DIRS)/*.c)) 
-TARGET=../../../bin/libAVS3AudioDec.so
+TARGET=../../../bin/libav3a_decoder.so
 OBJ:=$(SRC:.c=.o)
 
 LIB_EXTERN=-L../../lib/  -L../../deps/lib

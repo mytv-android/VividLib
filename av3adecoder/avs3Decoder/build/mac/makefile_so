@@ -1,7 +1,7 @@
 CC:=gcc
 SRC_DIRS=../../src ../../../libavs3_common ../../../libavs3_debug
 SRC=$(foreach TMP_SRC_DIRS, $(SRC_DIRS), $(wildcard $(TMP_SRC_DIRS)/*.c)) 
-TARGET=../../bin/libavs3AudioDec.so
+TARGET=../../bin/libav3a_decoder.so
 OBJ:=$(SRC:.c=.o) 
 
 #LIB_EXTERN=-L../../lib/  -L../../deps/lib

@@ -3,7 +3,7 @@
 ## any manual changes will be erased      
 ##
 ## Release
-# NDK=/home/yogiczy/media3/android-ndk-r27
+NDK=/content/Android/ndk/27.3.13750724
 #NDK=/home/wwzhang/android-ndk
 TOOLCHAIN=$(NDK)/toolchains/llvm/prebuilt/linux-x86_64
 
